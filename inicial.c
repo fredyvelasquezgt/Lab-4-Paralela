@@ -41,12 +41,14 @@ int main(int argc, char *argv[]) {
     // Recopilar todas las sumas parciales en el proceso maestro
     MPI_Reduce(&suma_parcial_local, &suma_total, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
-    // Proceso maestro imprime el resultado
+    // Proceso maestro imprime el resultado y detalles de los procesos
     if (rank == 0) {
+        printf("Número total de procesos: %d\n", size);
         printf("Aproximación de la integral: %f\n", suma_total);
+    } else {
+        printf("Proceso %d calculó la suma en el intervalo [%f, %f]\n", rank, local_a, local_b);
     }
 
     MPI_Finalize();
     return 0;
 }
-
